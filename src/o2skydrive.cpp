@@ -11,9 +11,9 @@
 #include "o0globals.h"
 
 O2Skydrive::O2Skydrive(QObject *parent): O2(parent) {
-    setRequestUrl("https://login.live.com/oauth20_authorize.srf");
-    setTokenUrl("https://login.live.com/oauth20_token.srf");
-    setRefreshTokenUrl("https://login.live.com/oauth20_token.srf");
+    setRequestUrl(QLatin1String("https://login.live.com/oauth20_authorize.srf"));
+    setTokenUrl(QLatin1String("https://login.live.com/oauth20_token.srf"));
+    setRefreshTokenUrl(QLatin1String("https://login.live.com/oauth20_token.srf"));
 }
 
 void O2Skydrive::link() {
@@ -24,20 +24,20 @@ void O2Skydrive::link() {
     }
 
     setLinked(false);
-    setToken("");
-    setTokenSecret("");
+    setToken(QLatin1String(""));
+    setTokenSecret(QLatin1String(""));
     setExtraTokens(QVariantMap());
     setRefreshToken(QString());
     setExpires(0);
 
-    redirectUri_ = QString("https://login.live.com/oauth20_desktop.srf");
+    redirectUri_ = QString::fromLatin1("https://login.live.com/oauth20_desktop.srf");
 
     // Assemble intial authentication URL
     QList<QPair<QString, QString> > parameters;
-    parameters.append(qMakePair(QString(O2_OAUTH2_RESPONSE_TYPE), (grantFlow_ == GrantFlowAuthorizationCode) ? QString(O2_OAUTH2_GRANT_TYPE_CODE) : QString(O2_OAUTH2_GRANT_TYPE_TOKEN)));
-    parameters.append(qMakePair(QString(O2_OAUTH2_CLIENT_ID), clientId_));
-    parameters.append(qMakePair(QString(O2_OAUTH2_REDIRECT_URI), redirectUri_));
-    parameters.append(qMakePair(QString(O2_OAUTH2_SCOPE), scope_));
+    parameters.append(qMakePair(O2_OAUTH2_RESPONSE_TYPE, (grantFlow_ == GrantFlowAuthorizationCode) ? O2_OAUTH2_GRANT_TYPE_CODE : O2_OAUTH2_GRANT_TYPE_TOKEN));
+    parameters.append(qMakePair(O2_OAUTH2_CLIENT_ID, clientId_));
+    parameters.append(qMakePair(O2_OAUTH2_REDIRECT_URI, redirectUri_));
+    parameters.append(qMakePair(O2_OAUTH2_SCOPE, scope_));
 
     // Show authentication URL with a web browser
     QUrl url(requestUrl_);
@@ -74,7 +74,7 @@ void O2Skydrive::redirected(const QUrl &url) {
 
         // Exchange access code for access/refresh tokens
         QNetworkRequest tokenRequest(tokenUrl_);
-        tokenRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        tokenRequest.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray("application/x-www-form-urlencoded"));
         QMap<QString, QString> parameters;
         parameters.insert(O2_OAUTH2_GRANT_TYPE_CODE, code());
         parameters.insert(O2_OAUTH2_CLIENT_ID, clientId_);
@@ -88,14 +88,14 @@ void O2Skydrive::redirected(const QUrl &url) {
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
     } else {
         // Get access token
-        QString urlToken = "";
-        QString urlRefreshToken = "";
+        QString urlToken = QLatin1String("");
+        QString urlRefreshToken = QLatin1String("");
         int urlExpiresIn = 0;
 
-        QStringList parts = url.toString().split("#");
+        QStringList parts = url.toString().split(QLatin1Char('#'));
         if (parts.length() > 1) {
-            foreach (QString item, parts[1].split("&")) {
-                int index = item.indexOf("=");
+            foreach (QString item, parts[1].split(QLatin1Char('&'))) {
+                int index = item.indexOf(QLatin1Char('='));
                 if (index == -1) {
                     continue;
                 }

@@ -32,7 +32,7 @@ void TwitterApi::requestTweets() {
         return;
     }
     O1Requestor *requestor = new O1Requestor(manager_, authenticator_, this);
-    QUrl url = QUrl("https://api.twitter.com/1.1/statuses/home_timeline.json");
+    QUrl url = QUrl(QLatin1String("https://api.twitter.com/1.1/statuses/home_timeline.json"));
     QNetworkRequest request(url);
     QNetworkReply *reply = requestor->get(request, QList<O0RequestParameter>());
     connect(reply, SIGNAL(finished()), this, SLOT(tweetsReceived()));

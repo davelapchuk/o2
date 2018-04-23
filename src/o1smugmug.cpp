@@ -3,7 +3,7 @@
 #include "o1smugmug.h"
 
 static QString basicAuthorizationUrl() {
-    return "https://secure.smugmug.com/services/oauth/1.0a/authorize";
+    return QLatin1String("https://secure.smugmug.com/services/oauth/1.0a/authorize");
 }
 
 static const char *accessToString(O1SmugMug::Access access) {
@@ -36,35 +36,35 @@ static const char *permissionsToString(O1SmugMug::Permissions permissions) {
 
 void O1SmugMug::initAuthorizationUrl(Access access, Permissions permissions) {
     setAuthorizeUrl(QUrl(::basicAuthorizationUrl()
-                         + "?Access=" + ::accessToString(access)
-                         + "&Permissions=" + ::permissionsToString(permissions)));
+                         + QLatin1String("?Access=") + QString::fromLatin1(::accessToString(access))
+                         + QLatin1String("&Permissions=") + QString::fromLatin1(::permissionsToString(permissions))));
 }
 
 #if QT_VERSION >= 0x050000
 
 void O1SmugMug::AuthorizationUrlBuilder::setAccess(Access value) {
-    query_.addQueryItem("Access", ::accessToString(value));
+    query_.addQueryItem(QLatin1String("Access"), QString::fromLatin1(::accessToString(value)));
 }
 
 void O1SmugMug::AuthorizationUrlBuilder::setPermissions(Permissions value) {
-    query_.addQueryItem("Permissions", ::permissionsToString(value));
+    query_.addQueryItem(QLatin1String("Permissions"), QString::fromLatin1(::permissionsToString(value)));
 }
 
 void O1SmugMug::AuthorizationUrlBuilder::setAllowThirdPartyLogin(bool value) {
-    query_.addQueryItem("allowThirdPartyLogin", value ? "1" : "0");
+    query_.addQueryItem(QLatin1String("allowThirdPartyLogin"), value ? QLatin1String("1") : QLatin1String("0"));
 }
 
 void O1SmugMug::AuthorizationUrlBuilder::setShowSignUpButton(bool value) {
-    query_.addQueryItem("showSignUpButton", value ? "true" : "false");
+    query_.addQueryItem(QLatin1String("showSignUpButton"), value ? QLatin1String("true") : QLatin1String("false"));
 }
 
 void O1SmugMug::AuthorizationUrlBuilder::setPrepopulatedUsername(const QString &value) {
-    query_.addQueryItem("username", value);
+    query_.addQueryItem(QLatin1String("username"), value);
 }
 
 void O1SmugMug::AuthorizationUrlBuilder::setViewportScale(double value) {
     Q_ASSERT(value >= 0 && value <= 1 && "Invalid SmugMug authorization viewportScale!");
-    query_.addQueryItem("viewportScale", QString::number(value, 'f'));
+    query_.addQueryItem(QLatin1String("viewportScale"), QString::number(value, 'f'));
 }
 
 QUrl O1SmugMug::AuthorizationUrlBuilder::url() const {
@@ -81,6 +81,6 @@ void O1SmugMug::initAuthorizationUrl(const AuthorizationUrlBuilder &builder) {
 
 O1SmugMug::O1SmugMug(QObject *parent, QNetworkAccessManager *manager, O0AbstractStore *store)
     : O1(parent, manager, store) {
-   setRequestTokenUrl(QUrl("https://secure.smugmug.com/services/oauth/1.0a/getRequestToken"));
-   setAccessTokenUrl(QUrl("https://secure.smugmug.com/services/oauth/1.0a/getAccessToken"));
+   setRequestTokenUrl(QUrl(QLatin1String("https://secure.smugmug.com/services/oauth/1.0a/getRequestToken")));
+   setAccessTokenUrl(QUrl(QLatin1String("https://secure.smugmug.com/services/oauth/1.0a/getAccessToken")));
 }

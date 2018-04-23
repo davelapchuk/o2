@@ -32,7 +32,7 @@ void O2ReplyServer::onIncomingConnection() {
     // sent as secondary query string callback, or additional requests make it through first,
     // like for favicons, etc., before such secondary callbacks are fired
     QTimer *timer = new QTimer(socket);
-    timer->setObjectName("timeoutTimer");
+    timer->setObjectName(QLatin1String("timeoutTimer"));
     connect(timer, SIGNAL(timeout()), this, SLOT(closeServer()));
     timer->setSingleShot(true);
     timer->setInterval(timeout() * 1000);
@@ -54,7 +54,7 @@ void O2ReplyServer::onBytesReady() {
     QByteArray reply;
     reply.append("HTTP/1.0 200 OK \r\n");
     reply.append("Content-Type: text/html; charset=\"utf-8\"\r\n");
-    reply.append(QString("Content-Length: %1\r\n\r\n").arg(replyContent_.size()).toLatin1());
+    reply.append(QString::fromLatin1("Content-Length: %1\r\n\r\n").arg(replyContent_.size()).toLatin1());
     reply.append(replyContent_);
     socket->write(reply);
     qDebug() << "O2ReplyServer::onBytesReady: Sent reply";
@@ -81,13 +81,13 @@ void O2ReplyServer::onBytesReady() {
 QMap<QString, QString> O2ReplyServer::parseQueryParams(QByteArray *data) {
     qDebug() << "O2ReplyServer::parseQueryParams";
 
-    //qDebug() << QString("O2ReplyServer::parseQueryParams data:\n%1").arg(QString(*data));
+    //qDebug() << QString::fromLatin1("O2ReplyServer::parseQueryParams data:\n%1").arg(QString(*data));
 
-    QString splitGetLine = QString(*data).split("\r\n").first();
-    splitGetLine.remove("GET ");
-    splitGetLine.remove("HTTP/1.1");
-    splitGetLine.remove("\r\n");
-    splitGetLine.prepend("http://localhost");
+    QString splitGetLine = QString::fromLatin1(*data).split(QLatin1String("\r\n")).first();
+    splitGetLine.remove(QLatin1String("GET "));
+    splitGetLine.remove(QLatin1String("HTTP/1.1"));
+    splitGetLine.remove(QLatin1String("\r\n"));
+    splitGetLine.prepend(QLatin1String("http://localhost"));
     QUrl getTokenUrl(splitGetLine);
 
     QList< QPair<QString, QString> > tokens;
@@ -127,7 +127,7 @@ void O2ReplyServer::closeServer(QTcpSocket *socket, bool hasparameters)
       }
   }
   if (socket) {
-      QTimer *timer = socket->findChild<QTimer*>("timeoutTimer");
+      QTimer *timer = socket->findChild<QTimer*>(QLatin1String("timeoutTimer"));
       if (timer) {
           qDebug() << "O2ReplyServer::closeServer: Stopping socket's timeout timer";
           timer->stop();

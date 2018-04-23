@@ -14,9 +14,9 @@ public:
 
     void setClientId(const QString &value) {
         O1::setClientId(value);
-        setRequestTokenUrl(QUrl("https://" + clientId() + ".freshbooks.com/oauth/oauth_request.php"));
-        setAuthorizeUrl(QUrl("https://" + clientId() + ".freshbooks.com/oauth/oauth_authorize.php"));
-        setAccessTokenUrl(QUrl("https://" + clientId() + ".freshbooks.com/oauth/oauth_access.php"));
+        setRequestTokenUrl(QUrl(QLatin1String("https://") + clientId() + QLatin1String(".freshbooks.com/oauth/oauth_request.php")));
+        setAuthorizeUrl(QUrl(QLatin1String("https://") + clientId() + QLatin1String(".freshbooks.com/oauth/oauth_authorize.php")));
+        setAccessTokenUrl(QUrl(QLatin1String("https://") + clientId() + QLatin1String(".freshbooks.com/oauth/oauth_access.php")));
     }
 };
 

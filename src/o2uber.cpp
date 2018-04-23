@@ -13,10 +13,10 @@
 #include "o2uber.h"
 #include "o0globals.h"
 
-static const char *UberEndpoint = "https://login.uber.com/oauth/v2/authorize";
-static const char *UberTokenUrl = "https://login.uber.com/oauth/v2/token";
-static const char *UberExpiresIn = "expires_in";
-static const char *UberGrantType = "authorization_code";
+static const QLatin1String UberEndpoint("https://login.uber.com/oauth/v2/authorize");
+static const QLatin1String UberTokenUrl("https://login.uber.com/oauth/v2/token");
+static const QLatin1String UberExpiresIn("expires_in");
+static const QLatin1String UberGrantType("authorization_code");
 
 O2Uber::O2Uber(QObject *parent): O2(parent)
 {
@@ -29,7 +29,7 @@ void O2Uber::onVerificationReceived(const QMap<QString, QString> response){
     qDebug() << "O2Uber::onVerificationReceived: Emitting closeBrowser()";
     Q_EMIT closeBrowser();
 
-    if (response.contains("error")) {
+    if (response.contains(QLatin1String("error"))) {
         qWarning() << "O2Uber::onVerificationReceived: Verification failed";
         foreach (QString key, response.keys()) {
             qWarning() << "O2Uber::onVerificationReceived:" << key << response.value(key);

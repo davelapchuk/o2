@@ -51,7 +51,7 @@ void FBDemo::doOAuth(O2::GrantFlow grantFlowType) {
 
 void FBDemo::onOpenBrowser(const QUrl &url) {
     if (authDialog == Q_NULLPTR) {
-        authDialog = new WebWindow(QSize(650, 600), url, QString("http://%1:%2").arg("127.0.0.1").arg(localPort), false);
+        authDialog = new WebWindow(QSize(650, 600), url, QString::fromLatin1("http://%1:%2").arg("127.0.0.1").arg(localPort), false);
         QObject::connect(authDialog, SIGNAL(callbackCalled(const QString &)), this, SLOT(onAuthWindowCallbackCalled(const QString &)));
         QObject::connect(authDialog, SIGNAL(windowClosed()), this, SLOT(onAuthWindowClosed()));
         authDialog->exec();

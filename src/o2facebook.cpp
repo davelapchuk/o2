@@ -13,9 +13,9 @@
 #include "o2facebook.h"
 #include "o0globals.h"
 
-static const char *FbEndpoint = "https://graph.facebook.com/oauth/authorize?display=touch";
-static const char *FbTokenUrl = "https://graph.facebook.com/oauth/access_token";
-static const char *FbExpiresKey = "expires_in";
+static const QLatin1String FbEndpoint("https://graph.facebook.com/oauth/authorize?display=touch");
+static const QLatin1String FbTokenUrl("https://graph.facebook.com/oauth/access_token");
+static const QLatin1String FbExpiresKey("expires_in");
 
 O2Facebook::O2Facebook(QObject *parent): O2(parent) {
     setRequestUrl(FbEndpoint);
@@ -26,7 +26,7 @@ void O2Facebook::onVerificationReceived(const QMap<QString, QString> response) {
     qDebug() << "O2Facebook::onVerificationReceived: Emitting closeBrowser()";
     Q_EMIT closeBrowser();
 
-    if (response.contains("error")) {
+    if (response.contains(QLatin1String("error"))) {
         qWarning() << "O2Facebook::onVerificationReceived: Verification failed";
         foreach (QString key, response.keys()) {
             qWarning() << "O2Facebook::onVerificationReceived:" << key << response.value(key);

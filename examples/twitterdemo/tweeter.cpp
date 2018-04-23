@@ -86,10 +86,10 @@ void Tweeter::postStatusUpdate(const QString &message) {
 
     QByteArray postData = O1::createQueryParameters(reqParams);
 
-    QUrl url = QUrl("https://api.twitter.com/1.1/statuses/update.json");
+    QUrl url = QUrl(QLatin1String("https://api.twitter.com/1.1/statuses/update.json"));
 
     QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, O2_MIME_TYPE_XFORM);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray(O2_MIME_TYPE_XFORM));
 
     QNetworkReply *reply = requestor->post(request, reqParams, postData);
     connect(reply, SIGNAL(finished()), this, SLOT(tweetReplyDone()));

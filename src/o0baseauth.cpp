@@ -28,7 +28,7 @@ void O0BaseAuth::setStore(O0AbstractStore *store) {
 }
 
 bool O0BaseAuth::linked() {
-    QString key = QString(O2_KEY_LINKED).arg(clientId_);
+    QString key = O2_KEY_LINKED.arg(clientId_);
     bool result = !store_->value(key).isEmpty();
     qDebug() << "O0BaseAuth::linked:" << (result? "Yes": "No");
     return result;
@@ -37,31 +37,31 @@ bool O0BaseAuth::linked() {
 void O0BaseAuth::setLinked(bool v) {
     qDebug() << "O0BaseAuth::setLinked:" << (v? "true": "false");
     bool oldValue = linked();
-    QString key = QString(O2_KEY_LINKED).arg(clientId_);
-    store_->setValue(key, v? "1": "");
+    QString key = O2_KEY_LINKED.arg(clientId_);
+    store_->setValue(key, v? QLatin1String("1"): QLatin1String(""));
     if (oldValue != v) {
         Q_EMIT linkedChanged();
     }
 }
 
 QString O0BaseAuth::tokenSecret() {
-    QString key = QString(O2_KEY_TOKEN_SECRET).arg(clientId_);
+    QString key = O2_KEY_TOKEN_SECRET.arg(clientId_);
     return store_->value(key);
 }
 
 void O0BaseAuth::setTokenSecret(const QString &v) {
-    QString key = QString(O2_KEY_TOKEN_SECRET).arg(clientId_);
+    QString key = O2_KEY_TOKEN_SECRET.arg(clientId_);
     store_->setValue(key, v);
     Q_EMIT tokenSecretChanged();
 }
 
 QString O0BaseAuth::token() {
-    QString key = QString(O2_KEY_TOKEN).arg(clientId_);
+    QString key = O2_KEY_TOKEN.arg(clientId_);
     return store_->value(key);
 }
 
 void O0BaseAuth::setToken(const QString &v) {
-    QString key = QString(O2_KEY_TOKEN).arg(clientId_);
+    QString key = O2_KEY_TOKEN.arg(clientId_);
     store_->setValue(key, v);
     Q_EMIT tokenChanged();
 }
@@ -117,7 +117,7 @@ void O0BaseAuth::setLocalPort(int value) {
 }
 
 QVariantMap O0BaseAuth::extraTokens() {
-    QString key = QString(O2_KEY_EXTRA_TOKENS).arg(clientId_);
+    QString key = O2_KEY_EXTRA_TOKENS.arg(clientId_);
     QString value = store_->value(key);
     QByteArray bytes = QByteArray::fromBase64(value.toLatin1());
     QDataStream stream(&bytes, QIODevice::ReadOnly);
@@ -130,8 +130,8 @@ void O0BaseAuth::setExtraTokens(QVariantMap extraTokens) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream << extraTokens;
-    QString key = QString(O2_KEY_EXTRA_TOKENS).arg(clientId_);
-    store_->setValue(key, bytes.toBase64());
+    QString key = O2_KEY_EXTRA_TOKENS.arg(clientId_);
+    store_->setValue(key, QString::fromLatin1(bytes.toBase64()));
     Q_EMIT extraTokensChanged();
 }
 
@@ -144,7 +144,7 @@ QByteArray O0BaseAuth::createQueryParameters(const QList<O0RequestParameter> &pa
         } else {
             ret.append("&");
         }
-        ret.append(QUrl::toPercentEncoding(h.name) + "=" + QUrl::toPercentEncoding(h.value));
+        ret.append(QUrl::toPercentEncoding(h.name) + "=" + QUrl::toPercentEncoding(QString::fromLatin1(h.value)));
     }
     return ret;
 }

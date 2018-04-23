@@ -8,9 +8,9 @@ class O1Upwork: public O1 {
 
 public:
     explicit O1Upwork(QObject *parent = 0) : O1(parent) {
-        setRequestTokenUrl(QUrl("https://www.upwork.com/api/auth/v1/oauth/token/request"));
-        setAuthorizeUrl(QUrl("https://www.upwork.com/services/api/auth"));
-        setAccessTokenUrl(QUrl("https://www.upwork.com/api/auth/v1/oauth/token/access"));
+        setRequestTokenUrl(QUrl(QLatin1String("https://www.upwork.com/api/auth/v1/oauth/token/request")));
+        setAuthorizeUrl(QUrl(QLatin1String("https://www.upwork.com/services/api/auth")));
+        setAccessTokenUrl(QUrl(QLatin1String("https://www.upwork.com/api/auth/v1/oauth/token/access")));
     }
 };
 

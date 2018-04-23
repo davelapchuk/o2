@@ -32,7 +32,7 @@ WebWindow::WebWindow(QSize inWindowSize, QUrl inLoginURL, QString inRedirectURLS
 	
     QRect rect_map = QRect(1, 1, width() - 2, height() - 2);
     mWebView->setGeometry(rect_map);
-    mWebView->setObjectName("webView");
+    mWebView->setObjectName(QLatin1String("webView"));
 	
 	mWebView->page()->profile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
 	if(!inLoginURL.isEmpty())
@@ -84,7 +84,7 @@ void WebWindow::onCallbackCatchedSafe()
 			queryParams.insert(key, value);
 		}
 		
-		resultStr = queryParams.value("code", "");
+		resultStr = queryParams.value(QLatin1String("code"), QLatin1String(""));
 		close();
 	}
 	else
