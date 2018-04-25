@@ -241,4 +241,3 @@ install(FILES ${CMAKE_BINARY_DIR}/o2.pc DESTINATION "${CMAKE_INSTALL_PREFIX}/lib
 
 configure_file(${CMAKE_SOURCE_DIR}/o2-config.h.cmake ${CMAKE_BINARY_DIR}/o2-config.h @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/o2-config.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include/o2")
-

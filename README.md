@@ -227,7 +227,3 @@ twitterdemo | Command line client for authenticating with Twitter and posting st
 
 * Persist the extra tokens, too
 * Add Qt Quick Twitter client example
-
-
-
-

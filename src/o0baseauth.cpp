@@ -96,7 +96,7 @@ QByteArray O0BaseAuth::replyContent() const {
     if(replyServer_ != NULL) {
         return replyServer_->replyContent();
     }
-    
+
     return QByteArray();
 }
 

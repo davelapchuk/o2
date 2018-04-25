@@ -190,11 +190,11 @@ void O2::link() {
                     return;
                 }
             }
-            
+
             // Save redirect URI, as we have to reuse it when requesting the access token
             redirectUri_ = localhostPolicy_.arg(replyServer_->serverPort());
         }
-        
+
         // Assemble intial authentication URL
         QList<QPair<QString, QString> > parameters;
         parameters.append(qMakePair(O2_OAUTH2_RESPONSE_TYPE,
@@ -445,7 +445,7 @@ void O2::refresh() {
 
 void O2::onRefreshFinished() {
     QNetworkReply *refreshReply = qobject_cast<QNetworkReply *>(sender());
-    
+
     if (refreshReply->error() == QNetworkReply::NoError) {
         QByteArray reply = refreshReply->readAll();
         QVariantMap tokens = parseTokenResponse(reply);

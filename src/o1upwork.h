@@ -15,4 +15,3 @@ public:
 };
 
 #endif // O1UPWORK_H
-
